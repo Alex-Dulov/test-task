@@ -1,11 +1,18 @@
+@import 'fonts.scss';
+@import 'reset.scss';
+@import 'ui.scss';
+
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 body {
-  background-color: #ccc;
+  font-family: 'open_sans', sans-serif;
 }
 
-h1 {
-  color: #936;
-}
-
-p {
-  background-color: #fc3;
-}
+@import 'container.scss';
+@import 'main-content.scss';
