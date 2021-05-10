@@ -32,7 +32,7 @@
     "gulp-sourcemaps": "^3.0.0",
     "stylelint": "^13.13.1",
     "stylelint-scss": "^3.19.0",
-    "webpack": "^5.36.2",
+    "webpack": "^4.46.0",
     "webpack-stream": "^6.1.2"
   }
 }

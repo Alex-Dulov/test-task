@@ -22,12 +22,14 @@ const path = {
     js: 'src/js/index.js',
     img: 'src/assets/img/**/*.{jpg,png,svg,gif,ico,webp}',
     fonts: 'src/assets/fonts/*.{woff,woff2}',
+    static: 'src/assets/static/**/*.*',
   },
   watch: {
     html: 'src/**/*.html',
     scss: 'src/assets/scss/**/*.scss',
     js: 'src/**/*.js',
     img: 'src/assets/img/**/*.{jpg,png,svg,gif,ico,webp}',
+    static: 'src/assets/static/**/*.*',
   },
   dev: {
     html: './dev/',
@@ -45,6 +47,10 @@ const path = {
   },
   clean: './build/',
 };
+
+const staticFiles = () => src(path.src.static)
+  .pipe(dest(isDev ? path.dev.html : path.build.html))
+  .pipe(browserSync.stream());
 
 const html = () => src(path.src.html)
   .pipe(dest(isDev ? path.dev.html : path.build.html))
@@ -67,7 +73,7 @@ const scss = () => src(path.src.scss, { sourcemaps: isDev })
 const js = () => src(path.src.js)
   .pipe(webpack({
     ...webpackConfig,
-    mode: !isDev ? 'development' : 'production',
+    mode: isDev ? 'development' : 'production',
     devtool: isDev ? 'source-map' : false,
   }))
   .pipe(dest(isDev ? path.dev.js : path.build.js))
@@ -103,14 +109,15 @@ const server = () => {
 };
 
 const watchFiles = () => {
+  watch([path.watch.static], staticFiles);
   watch([path.watch.html], html);
   watch([path.watch.scss], scss);
   watch([path.watch.js], js);
   watch([path.watch.img], images);
 };
 
-const build = series(setBuildMode, clean, parallel(html, scss, js, images, fonts));
-const dev = parallel(parallel(html, scss, js, images, fonts), watchFiles, server);
+const build = series(setBuildMode, clean, parallel(staticFiles, html, scss, js, images, fonts));
+const dev = parallel(parallel(staticFiles, html, scss, js, images, fonts), watchFiles, server);
 
 exports.html = html;
 exports.scss = scss;

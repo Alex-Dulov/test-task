@@ -1,15 +1,17 @@
 module.exports = {
-  entry: "./src/js/index.js",
+  entry: {
+    app: './src/js/index.js',
+  },
   output: {
-    filename: 'script.js'
+    filename: '[name].js',
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: '/node_modules/'
-      }
-    ]
+        exclude: '/node_modules/',
+      },
+    ],
   },
-}
+};
