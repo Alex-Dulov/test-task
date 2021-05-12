@@ -1,3 +1,5 @@
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+
 module.exports = {
   entry: {
     app: './src/js/index.js',
@@ -12,6 +14,23 @@ module.exports = {
         loader: 'babel-loader',
         exclude: '/node_modules/',
       },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+          loader: {
+            scss: 'vue-style-loader!css-loader!sass-loader',
+          },
+        },
+      },
     ],
   },
+  resolve: {
+    alias: {
+      vue: 'vue/dist/vue.js', // 'vue/dist/vue.min.js' --> for production
+    },
+  },
+  plugins: [
+    new VueLoaderPlugin(),
+  ],
 };
